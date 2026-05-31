@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* ── Variables ── */
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E2C97E;
+  --gold-dark: #9A7A2E;
+  --black: #0A0A0A;
+  --dark: #111111;
+  --dark-2: #1A1A1A;
+  --dark-3: #222222;
+  --white: #FFFFFF;
+  --white-soft: #F5F5F0;
+  --gray: #888888;
+  --gray-light: #CCCCCC;
+
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  --transition: all 0.3s ease;
+  --shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  --shadow-gold: 0 4px 20px rgba(201, 168, 76, 0.2);
+
+  --max-width: 1200px;
+  --section-padding: 100px 20px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--black);
+  color: var(--white);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+ul {
+  list-style: none;
+}
+
+/* ── Utility Classes ── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: var(--section-padding);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.gold-text {
+  color: var(--gold);
+}
+
+.gold-line {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 20px 0;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 3px;
+}
+
+/* ── Mobile/Desktop Nav Toggle ── */
+@media (max-width: 768px) {
+  .desktop-nav { display: none !important; }
+  .mobile-nav  { display: flex !important; }
+}
+
+@media (min-width: 769px) {
+  .mobile-nav  { display: none !important; }
+  .desktop-nav { display: flex !important; }
+}

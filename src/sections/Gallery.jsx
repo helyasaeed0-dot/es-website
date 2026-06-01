@@ -1,53 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-import bathroom1   from '../assets/bathroom1.jpg'
-import bathroom3   from '../assets/bathroom3.jpg'
-import commercial1 from '../assets/commercial1.jpg'
-import kitchen1    from '../assets/kitchen1.jpg'
-import kitchen2    from '../assets/kitchen2.jpg'
-import staircase1  from '../assets/staircase1.jpg'
-import staircase2  from '../assets/staircase2.jpg'
-import wall1       from '../assets/wall 1.jpg'
-import wall2       from '../assets/wall2.jpg'
+// Cloudinary optimized URL helper — serves compressed, resized WebP automatically
+const cld = (url, w = 800) => {
+  // Insert Cloudinary transformation params right after /upload/
+  return url.replace('/upload/', `/upload/f_auto,q_auto:good,w_${w},c_fill/`)
+}
 
 const galleryItems = [
-  { id: 1, title: 'Luxury Kitchen Worktop',  category: 'Kitchen',    image: kitchen1    },
-  { id: 2, title: 'Bespoke Kitchen Island',  category: 'Kitchen',    image: kitchen2    },
-  { id: 3, title: 'Marble Bathroom Vanity',  category: 'Bathroom',   image: bathroom1   },
-  { id: 4, title: 'Shower Surround',         category: 'Bathroom',   image: bathroom3   },
-  { id: 5, title: 'Feature Wall Cladding',   category: 'Wall',       image: wall1       },
-  { id: 6, title: 'Stone Wall Panel',        category: 'Wall',       image: wall2       },
-  { id: 7, title: 'Staircase Installation',  category: 'Staircase',  image: staircase1  },
-  { id: 8, title: 'Grand Staircase',         category: 'Staircase',  image: staircase2  },
-  { id: 9, title: 'Commercial Flooring',     category: 'Commercial', image: commercial1 },
+  { id: 1, title: 'Luxury Kitchen Worktop',  category: 'Kitchen',    image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293567/kitchen1_uvqnsz.jpg' },
+  { id: 2, title: 'Bespoke Kitchen Island',  category: 'Kitchen',    image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293567/kitchen2_ywfhav.avif' },
+  { id: 3, title: 'Marble Bathroom Vanity',  category: 'Bathroom',   image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293296/bathroom1_yfkuzx.jpg' },
+  { id: 4, title: 'Shower Surround',         category: 'Bathroom',   image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293958/bathroom_5_yname8.jpg' },
+  { id: 5, title: 'Feature Wall Cladding',   category: 'Wall',       image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293720/wall_1_r7c04a.jpg' },
+  { id: 6, title: 'Stone Wall Panel',        category: 'Wall',       image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780294042/wall10_yrxxkm.jpg' },
+  { id: 7, title: 'Staircase Installation',  category: 'Staircase',  image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293301/staircase2_vxzchf.jpg' },
+  { id: 8, title: 'Grand Staircase',         category: 'Staircase',  image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293309/staircase1_a6j8ze.jpg' },
+  { id: 9, title: 'Commercial Flooring',     category: 'Commercial', image: 'https://res.cloudinary.com/doewtzrgl/image/upload/v1780293298/commercial1_dxz5mx.jpg' },
 ]
 
 const categories = ['All', 'Kitchen', 'Bathroom', 'Wall', 'Staircase', 'Commercial']
 
-// Preload all images immediately on module load
-const preloadedImages = {}
-galleryItems.forEach(item => {
-  const img = new Image()
-  img.src = item.image
-  preloadedImages[item.id] = img
-})
-
 export default function Gallery() {
-  const [activeFilter, setActiveFilter]   = useState('All')
-  const [loadedIds,    setLoadedIds]      = useState({})
-  const [hoveredId,    setHoveredId]      = useState(null)
-
-  // Mark images as loaded once they're ready
-  useEffect(() => {
-    galleryItems.forEach(item => {
-      const img = preloadedImages[item.id]
-      const markLoaded = () =>
-        setLoadedIds(prev => ({ ...prev, [item.id]: true }))
-
-      if (img.complete) markLoaded()
-      else img.onload = markLoaded
-    })
-  }, [])
+  const [activeFilter, setActiveFilter] = useState('All')
+  const [loadedIds,    setLoadedIds]    = useState({})
+  const [hoveredId,    setHoveredId]    = useState(null)
 
   const filtered = galleryItems.filter(item =>
     activeFilter === 'All' ? true : item.category === activeFilter
@@ -55,6 +31,17 @@ export default function Gallery() {
 
   return (
     <section id="gallery" style={s.section}>
+      {/* Preload first 3 images via <link rel="preload"> injected in <head> */}
+      {galleryItems.slice(0, 3).map(item => (
+        <link
+          key={item.id}
+          rel="preload"
+          as="image"
+          href={cld(item.image, 800)}
+          fetchpriority="high"
+        />
+      ))}
+
       <div style={s.container}>
 
         {/* Header */}
@@ -77,9 +64,9 @@ export default function Gallery() {
               onClick={() => setActiveFilter(cat)}
               style={{
                 ...s.filterBtn,
-                background:   activeFilter === cat ? 'var(--gold)' : 'transparent',
-                color:        activeFilter === cat ? 'var(--black)' : 'var(--gray)',
-                borderColor:  activeFilter === cat ? 'var(--gold)' : 'rgba(201,168,76,0.2)',
+                background:  activeFilter === cat ? 'var(--gold)' : 'transparent',
+                color:       activeFilter === cat ? 'var(--black)' : 'var(--gray)',
+                borderColor: activeFilter === cat ? 'var(--gold)' : 'rgba(201,168,76,0.2)',
               }}
             >
               {cat}
@@ -93,6 +80,8 @@ export default function Gallery() {
             const isLoaded  = !!loadedIds[item.id]
             const isHovered = hoveredId === item.id
             const isTall    = i % 3 === 0
+            // First 6 images load eagerly (above fold), rest lazy
+            const isEager   = item.id <= 6
 
             return (
               <div
@@ -108,16 +97,16 @@ export default function Gallery() {
                 {/* Skeleton shown until loaded */}
                 {!isLoaded && <div style={s.skeleton} />}
 
-                {/* Image — always in DOM for instant display */}
                 <img
-                  src={item.image}
+                  src={cld(item.image, 800)}
                   alt={item.title}
-                  loading="eager"
-                  decoding="async"
+                  loading={isEager ? 'eager' : 'lazy'}
+                  decoding={isEager ? 'sync' : 'async'}
+                  fetchpriority={item.id <= 3 ? 'high' : 'auto'}
                   style={{
                     ...s.img,
-                    opacity:    isLoaded ? 1 : 0,
-                    transform:  isHovered ? 'scale(1.05)' : 'scale(1)',
+                    opacity:   isLoaded ? 1 : 0,
+                    transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                   }}
                   onLoad={() =>
                     setLoadedIds(prev => ({ ...prev, [item.id]: true }))
@@ -200,7 +189,7 @@ const s = {
     overflow: 'hidden',
     cursor: 'pointer',
     transition: 'border-color 0.3s ease',
-    background: '#111',        // dark bg while loading
+    background: '#111',
   },
   skeleton: {
     position: 'absolute', inset: 0,
@@ -210,10 +199,14 @@ const s = {
     zIndex: 1,
   },
   img: {
-    width: '100%', height: '100%',
-    objectFit: 'cover', display: 'block',
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center',
+    display: 'block',
     transition: 'transform 0.5s ease, opacity 0.4s ease',
-    position: 'relative', zIndex: 2,
+    position: 'relative',
+    zIndex: 2,
   },
   overlay: {
     position: 'absolute', inset: 0, zIndex: 3,

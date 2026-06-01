@@ -1,3 +1,5 @@
+import esLogo from '../assets/ES logo.png'
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -34,19 +36,48 @@ const Footer = () => {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
         .footer-link:hover { color: #C9A84C !important; }
         .footer-social:hover { border-color: #C9A84C !important; color: #C9A84C !important; }
+
+        @media (max-width: 768px) {
+          .footer-inner {
+            grid-template-columns: 1fr 1fr !important;
+            padding: 48px 24px 32px !important;
+            gap: 36px !important;
+          }
+          .footer-brand-col {
+            grid-column: 1 / -1 !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          .footer-brand-col p { max-width: 100% !important; }
+          .footer-socials { justify-content: center !important; }
+          .footer-bottom-inner {
+            flex-direction: column !important;
+            gap: 12px !important;
+            text-align: center !important;
+          }
+          .footer-bottom-bar { padding: 0 24px 28px !important; }
+        }
+
+        @media (max-width: 480px) {
+          .footer-inner {
+            grid-template-columns: 1fr !important;
+            padding: 40px 20px 28px !important;
+          }
+          .footer-brand-col { grid-column: 1 !important; }
+        }
       `}</style>
 
       <div style={s.topLine} />
 
-      <div style={s.inner}>
+      <div className="footer-inner" style={s.inner}>
         {/* Brand col */}
-        <div style={s.brandCol}>
-          <img src="/src/assets/ES logo.png" alt="Express Stone" style={s.logo} />
+        <div className="footer-brand-col" style={s.brandCol}>
+          <img src={esLogo} alt="Express Stone" style={s.logo} />
           <p style={s.tagline}>MARBLE · SUPPLY · FIT</p>
           <p style={s.desc}>
             Premium natural stone solutions for residential and commercial spaces across the UK.
           </p>
-          <div style={s.socials}>
+          <div className="footer-socials" style={s.socials}>
             {[
               { label: "FB", href: "#" },
               { label: "IG", href: "#" },
@@ -83,10 +114,10 @@ const Footer = () => {
           <p style={s.colHeading}>Contact</p>
           <div style={s.colLine} />
           {[
-            { icon: "📞", text: "0751 40000 20",            href: "tel:075140000020" },
+            { icon: "📞", text: "0751 40000 20",                    href: "tel:075140000020" },
             { icon: "📍", text: "59 Victoria Rd, Ruislip, HA4 9BH", href: "https://maps.google.com/?q=59+Victoria+Rd+Ruislip+HA4+9BH" },
-            { icon: "✉️", text: "office@expressstone.co.uk", href: "mailto:office@expressstone.co.uk" },
-            { icon: "🌐", text: "expressstone.co.uk",        href: "https://expressstone.co.uk" },
+            { icon: "✉️", text: "office@expressstone.co.uk",         href: "mailto:office@expressstone.co.uk" },
+            { icon: "🌐", text: "expressstone.co.uk",                href: "https://expressstone.co.uk" },
           ].map((c) => (
             <a key={c.text} href={c.href} style={{ ...s.contactItem, textDecoration: 'none' }}
               target={c.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
@@ -98,9 +129,9 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div style={s.bottomBar}>
+      <div className="footer-bottom-bar" style={s.bottomBar}>
         <div style={s.bottomLine} />
-        <div style={s.bottomInner}>
+        <div className="footer-bottom-inner" style={s.bottomInner}>
           <p style={s.copyright}>© {currentYear} Express Stone Ltd · All Rights Reserved</p>
           <div style={s.bottomLinks}>
             {["Privacy Policy", "Terms of Service"].map((l) => (
@@ -147,3 +178,4 @@ const s = {
 };
 
 export default Footer;
+ 

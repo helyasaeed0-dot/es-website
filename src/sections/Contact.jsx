@@ -55,13 +55,55 @@ export default function Contact() {
           from { opacity: 0; transform: translateY(24px); }
           to   { opacity: 1; transform: translateY(0); }
         }
+
+        /* ── Mobile overrides ── */
+        @media (max-width: 768px) {
+          #contact-hero {
+            padding: 60px 24px 44px !important;
+          }
+          #contact-title {
+            font-size: 48px !important;
+          }
+          #contact-grid {
+            grid-template-columns: 1fr 1fr !important;
+            padding: 0 16px 60px !important;
+            gap: 12px !important;
+          }
+          .contact-card {
+            padding: 28px 16px !important;
+            margin: 0 !important;
+          }
+          .contact-card-value {
+            font-size: 11px !important;
+            word-break: break-word !important;
+          }
+        }
+
+        @media (max-width: 420px) {
+          #contact-grid {
+            grid-template-columns: 1fr !important;
+            padding: 0 20px 60px !important;
+          }
+          .contact-card {
+            flex-direction: row !important;
+            text-align: left !important;
+            align-items: center !important;
+            gap: 20px !important;
+            padding: 22px 20px !important;
+          }
+          .contact-card-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          }
+        }
       `}</style>
 
       <div style={s.bgGlow} />
 
-      <div style={s.hero}>
+      <div id="contact-hero" style={s.hero}>
         <p style={s.eyebrow}>GET IN TOUCH</p>
-        <h1 style={s.title}>
+        <h1 id="contact-title" style={s.title}>
           Contact <em style={s.italic}>Us</em>
         </h1>
         <div style={s.divider} />
@@ -70,13 +112,14 @@ export default function Contact() {
         </p>
       </div>
 
-      <div style={s.grid}>
+      <div id="contact-grid" style={s.grid}>
         {contacts.map((c, i) => (
           <a
             key={c.label}
             href={c.href}
             target={c.label === "Address" || c.label === "Website" ? "_blank" : undefined}
             rel="noreferrer"
+            className="contact-card"
             style={{
               ...s.card,
               animationDelay: `${i * 0.1}s`,
@@ -91,11 +134,14 @@ export default function Contact() {
               ...s.iconWrap,
               background: hovered === i ? "rgba(201,168,76,0.2)" : "rgba(201,168,76,0.08)",
               color: "#C9A84C",
+              flexShrink: 0,
             }}>
               {c.icon}
             </div>
-            <p style={s.cardLabel}>{c.label}</p>
-            <p style={s.cardValue}>{c.value}</p>
+            <div className="contact-card-text">
+              <p style={s.cardLabel}>{c.label}</p>
+              <p className="contact-card-value" style={s.cardValue}>{c.value}</p>
+            </div>
           </a>
         ))}
       </div>
@@ -149,7 +195,7 @@ const s = {
   },
   title: {
     fontFamily: "'Cormorant Garamond', serif",
-    fontSize: "clamp(52px, 7vw, 88px)",
+    fontSize: "clamp(40px, 7vw, 88px)",
     fontWeight: "300",
     color: "#fff",
     lineHeight: 1.05,
@@ -226,6 +272,7 @@ const s = {
     justifyContent: "center",
     gap: "20px",
     padding: "8px 0 24px",
+    flexWrap: "wrap",
   },
   tagDot: { color: "#C9A84C", fontSize: "12px" },
   tagText: {

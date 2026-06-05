@@ -1,14 +1,11 @@
 import esLogo from '../assets/ES logo.png'
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
   const handleScroll = (id) => {
     if (id === '#') return;
     const el = document.querySelector(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
-
   const links = {
     Company: [
       { label: "About Us",      href: "#about"        },
@@ -89,7 +86,6 @@ const Footer = () => {
             ))}
           </div>
         </div>
-
         {/* Nav cols */}
         {Object.entries(links).map(([heading, items]) => (
           <div key={heading} style={s.linkCol}>
@@ -176,6 +172,5 @@ const s = {
   bottomLinks: { display: "flex", gap: "24px" },
   bottomLink: { fontSize: "10px", color: "rgba(232,213,163,0.25)", textDecoration: "none", letterSpacing: "0.05em", transition: "color 0.2s" },
 };
-
 export default Footer;
  

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import logo from '../assets/ES logo.png'
-
 const navLinks = [
   { label: 'About',        href: '#about'       },
   { label: 'Services',     href: '#services'    },
@@ -12,27 +11,22 @@ const navLinks = [
   { label: 'FAQ',          href: '#faq'         },
   { label: 'Contact',      href: '#contact'     },
 ]
-
 export default function Navbar() {
   const [scrolled,   setScrolled]   = useState(false)
   const [activeLink, setActiveLink] = useState('')
   const [menuOpen,   setMenuOpen]   = useState(false)
-
   // ── Scroll background ──
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
   // ── Active section tracking via scroll position (most reliable) ──
   useEffect(() => {
     const getActiveSection = () => {
       const scrollY = window.scrollY + 120 // offset for navbar height
-
       // Go through sections in reverse so last visible wins
       const sectionIds = navLinks.map(l => l.href.replace('#', ''))
-      
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const el = document.getElementById(sectionIds[i])
         if (!el) continue

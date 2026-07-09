@@ -28,7 +28,7 @@ const contacts = [
       </svg>
     ),
     label: "Email",
-    value: "office@expressstone.co.uk",
+    value: "info@expressstone.co.uk",
     href: "mailto:office@expressstone.co.uk",
   },
   {

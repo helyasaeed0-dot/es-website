@@ -112,7 +112,7 @@ const Footer = () => {
           {[
             { icon: "📞", text: "0751 40000 20",                    href: "tel:075140000020" },
             { icon: "📍", text: "59 Victoria Rd, Ruislip, HA4 9BH", href: "https://maps.google.com/?q=59+Victoria+Rd+Ruislip+HA4+9BH" },
-            { icon: "✉️", text: "office@expressstone.co.uk",         href: "mailto:office@expressstone.co.uk" },
+            { icon: "✉️", text: "info@expressstone.co.uk",         href: "mailto:office@expressstone.co.uk" },
             { icon: "🌐", text: "expressstone.co.uk",                href: "https://expressstone.co.uk" },
           ].map((c) => (
             <a key={c.text} href={c.href} style={{ ...s.contactItem, textDecoration: 'none' }}
